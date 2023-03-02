@@ -3,7 +3,7 @@ const router = express.Router();
 const { body } = require("express-validator");
 
 
-const { registerUser } = require("../controllers/auth")
+const { registerUser, loginUser } = require("../controllers/auth")
 
 //Register
 router.post("/register", [
@@ -12,6 +12,11 @@ router.post("/register", [
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password must be atleast 5 characters').isLength({ min: 5 }),
 ], registerUser)
+
+router.post("/login", [
+    body('email', 'Enter a valid email').isEmail(),
+    body('password', 'Password cannot be blank').isLength({ min: 5 }),
+], loginUser)
 
 
 module.exports = router
