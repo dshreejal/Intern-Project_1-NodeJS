@@ -1,12 +1,12 @@
 require('dotenv').config();
 
-const env = process.env.NODE_ENV; // dev or test
+const env = process.env.NODE_ENV || dev; // dev or test
 const dev = {
     app: {
-        port: process.env.PORT
+        port: process.env.PORT || 3001
     },
     db: {
-        host: process.env.MongoURL
+        host: process.env.MongoURL || "mongodb://localhost/test-db"
     },
     jwt: {
         secret: process.env.JWT_SECRET
