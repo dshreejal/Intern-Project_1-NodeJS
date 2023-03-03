@@ -1,9 +1,10 @@
 const { validationResult } = require("express-validator")
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 require('dotenv/config');
 const config = require('../config/config');
+const userService = require('../services/auth')
 const JWT_SECRET = config.dev.jwt.secret
 
 exports.registerUser = async (req, res) => {
@@ -12,33 +13,19 @@ exports.registerUser = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        //Check for dupliate email id
-        let user = await User.findOne({ email: req.body.email });
-        if (user) {
-            res.status(401).json({ error: "Sorry email already used" })
-        }
-
-        const salt = await bcrypt.genSalt(12);
-        const securePassword = await bcrypt.hash(req.body.password, salt);
-
-        const newUser = await User.create({
+        const userData = {
             fname: req.body.fname,
             lname: req.body.lname,
             name: req.body.fname + " " + req.body.lname,
             email: req.body.email,
-            password: securePassword,
-        });
-        const data = {
-            user: {
-                id: newUser.id
-            }
-        }
-        const authToken = jwt.sign(data, JWT_SECRET)
-        const msg = "User created successfully"
-        res.status(201).json({ authToken, msg })
+            password: req.body.password
+        };
+        const result = await userService.registerUser(userData);
+        res.status(201).json(result);
 
     } catch (error) {
         console.log(error);
+        res.status(500).send('Internal Server Error');
     }
 }
 
