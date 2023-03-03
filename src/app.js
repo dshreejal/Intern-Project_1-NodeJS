@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
 const cors = require('cors');
-
+const config = require("./config/config")
 const connectToMongo = require("./config/db")
-const port = process.env.PORT || 3100;
+
+const port = config.dev.app.port;
 
 connectToMongo();
 

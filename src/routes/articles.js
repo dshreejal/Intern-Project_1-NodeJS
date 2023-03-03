@@ -8,7 +8,6 @@ const { addArticle, fetchArticle, editArticle, deleteArticle } = require("../con
 router.post("/add", UserData, [
     body('title', 'Enter a valid title').isLength({ min: 3 }),
     body('description', 'Description must be atleast 5 characters').isLength({ min: 5 }),
-    body('tag', 'Tag must not be blank').isLength({ min: 3 }),
 ], addArticle)
 
 router.get("/", fetchArticle)

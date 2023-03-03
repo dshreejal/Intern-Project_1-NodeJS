@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-require('dotenv/config')
-const JWT_SECRET = process.env.JWT_SECRET
+require('dotenv/config');
+const config = require('../config/config');
+const JWT_SECRET = config.dev.jwt.secret;
 
 const FetchUser = (req, res, next) => {
     const token = req.header('auth-token')
