@@ -21,21 +21,13 @@ exports.addArticle = async (req, res) => {
 
 exports.fetchArticle = async (req, res) => {
     try {
-        let page = Number(req.query.page) || 1;
-        let limit = Number(req.query.limit) || 8;
-        let skip = (page - 1) * limit;
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 8;
+        const titleQuery = req.query.title || '';
+        const sortParam = req.query.sort || '';
 
-        let query;
-        let sortParam;
-        if (req.query.title) {
-            query = { title: new RegExp(req.query.title, 'i') } //regexQuery
-        }
-        if (req.query.sort) {
-            sortParam = `${req.query.sort}`
-        }
-
-        const products = await Article.find(query).limit(limit).skip(skip).sort(sortParam);
-        res.json(products);
+        const articles = await articleService.fetchArticle(titleQuery, sortParam, page, limit);
+        res.json(articles);
     } catch (error) {
         console.log(error.message);
         res.status(500).send("Internal Server Error");
