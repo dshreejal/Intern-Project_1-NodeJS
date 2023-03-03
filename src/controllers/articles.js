@@ -1,5 +1,4 @@
 const { validationResult } = require("express-validator")
-const Article = require("../models/Article")
 const articleService = require("../services/articles")
 
 //Controller Function
@@ -60,15 +59,13 @@ exports.editArticle = async (req, res) => {
 
 exports.deleteArticle = async (req, res) => {
     try {
-        let article = await Article.findById(req.params.id);
-        if (!article) { return res.status(404).send("Not Found") }
+        let article = await articleService.findArticleById(req.params.id);
 
-        //Check if user logged in is accessing the note or not. only allow logged in user to delete
-        if (article.user.toString() !== req.user.id) {
-            return res.status(401).send("Not Allowed")
+        if (!article) {
+            return res.status(404).send("Not Found")
         }
 
-        article = await Article.findByIdAndDelete(req.params.id)
+        await articleService.deleteArticle(req.params.id, req.user.id);
         res.json({ "Success": "Article has been deleted successfully", })
     } catch (error) {
         console.error(error.message);

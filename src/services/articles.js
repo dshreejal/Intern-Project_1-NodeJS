@@ -37,3 +37,24 @@ exports.editArticle = async (articleId, userId, newArticleData) => {
         throw new Error(error.message);
     }
 }
+
+exports.findArticleById = async (id) => {
+    return await Article.findById(id);
+}
+
+exports.deleteArticle = async (id, userId) => {
+    let article = await Article.findById(id);
+
+    // If the article does not exist, throw an error
+    if (!article) {
+        throw new Error("Article not found");
+    }
+
+    // Check if the user is authorized to delete the article
+    if (article.user.toString() !== userId) {
+        throw new Error("Not authorized to delete this article");
+    }
+
+    // Delete the article
+    return await Article.findByIdAndDelete(id);
+}
