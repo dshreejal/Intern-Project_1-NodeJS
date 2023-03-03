@@ -37,22 +37,21 @@ exports.fetchArticle = async (req, res) => {
 exports.editArticle = async (req, res) => {
     try {
         const { title, description } = req.body;
-        const newArticle = {}
-        if (title) { newArticle.title = title }
-        if (description) { newArticle.description = description }
-
-
-        let article = await Article.findById(req.params.id);
-        if (!article) { return res.status(404).send("Not Found") }
-
-        //Check if the user logged in is accessing the data or not
-        if (article.user.toString() !== req.user.id) {
-            return res.status(401).send("Unauthorized")
+        const newArticleData = {};
+        if (title) {
+            newArticleData.title = title;
+        }
+        if (description) {
+            newArticleData.description = description;
         }
 
-        //update note
-        article = await Article.findByIdAndUpdate(req.params.id, { $set: newArticle }, { new: true })
-        res.json({ article })
+        const updatedArticle = await articleService.editArticle(
+            req.params.id,
+            req.user.id,
+            newArticleData
+        );
+
+        res.json({ updatedArticle });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
