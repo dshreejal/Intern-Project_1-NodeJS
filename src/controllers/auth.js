@@ -5,6 +5,11 @@ const config = require('../config/config');
 const userService = require('../services/auth')
 const JWT_SECRET = config.dev.jwt.secret
 
+/**
+ * This function handles the registration of a user.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.registerUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -27,6 +32,11 @@ exports.registerUser = async (req, res) => {
     }
 }
 
+/**
+ * This function handles the login of a user.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 exports.loginUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

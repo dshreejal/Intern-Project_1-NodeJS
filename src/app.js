@@ -4,6 +4,7 @@ const cors = require('cors');
 const config = require("./config/config")
 const connectToMongo = require("./config/db")
 
+// Fetch the server port number from the configuration file
 const port = config.dev.app.port;
 
 connectToMongo();
