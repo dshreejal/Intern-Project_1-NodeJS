@@ -1,6 +1,8 @@
 const { validationResult } = require("express-validator")
 const Article = require("../models/Article")
+const articleService = require("../services/articles")
 
+//Controller Function
 exports.addArticle = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -9,10 +11,7 @@ exports.addArticle = async (req, res) => {
 
     try {
         const { title, description } = req.body;
-        const note = new Article({
-            title, description, user: req.user.id
-        })
-        const savedArticle = await note.save();
+        const savedArticle = await articleService.addArticle(title, description, req.user.id);
         res.json(savedArticle)
     } catch (error) {
         console.error(error.message);
