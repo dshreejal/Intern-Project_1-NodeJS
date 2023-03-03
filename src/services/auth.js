@@ -33,3 +33,16 @@ exports.registerUser = async (userData) => {
     return { authToken, "success": true, "message": "User created successfully" };
 }
 
+exports.loginUser = async (email, password) => {
+    let user = await User.findOne({ email });
+    if (!user) {
+        throw new Error("Invalid email or password");
+    }
+
+    const passwordCompare = await bcrypt.compare(password, user.password);
+    if (!passwordCompare) {
+        throw new Error("Invalid email or password");
+    }
+
+    return user;
+}

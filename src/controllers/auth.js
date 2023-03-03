@@ -1,6 +1,4 @@
 const { validationResult } = require("express-validator")
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require('dotenv/config');
 const config = require('../config/config');
@@ -37,15 +35,7 @@ exports.loginUser = async (req, res) => {
 
     try {
         const { email, password } = req.body;
-        let user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ error: "Please try to login using correct Credentials" })
-        }
-
-        const passwordCompare = await bcrypt.compare(password, user.password);
-        if (!passwordCompare) {
-            return res.status(401).json({ error: "Please try to login using correct Credentials" })
-        }
+        let user = await userService.loginUser(email, password);
 
         const data = {
             user: {
@@ -53,8 +43,7 @@ exports.loginUser = async (req, res) => {
             }
         }
         const authToken = jwt.sign(data, JWT_SECRET)
-        const msg = "Logged In successfully"
-        res.json({ authToken, msg })
+        res.json({ authToken, "success": true, "message": "Logged IN successfully" })
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
