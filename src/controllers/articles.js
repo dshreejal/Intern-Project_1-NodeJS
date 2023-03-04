@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator")
 const articleService = require("../services/articles")
 const logger = require('../utils/logger');
+const { sendResponse, HttpStatus } = require('../utils/apiResponse');
 
 /**
  * This function handles the addition of a new article.
@@ -10,17 +11,17 @@ const logger = require('../utils/logger');
 exports.addArticle = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return sendResponse(res, HttpStatus.BAD_REQUEST, false, null, "Some fields not filled properly", errors.array());
     }
 
     try {
         const { title, description } = req.body;
         // Call the article service to add the new article
         const savedArticle = await articleService.addArticle(title, description, req.user.id);
-        res.json(savedArticle)
+        sendResponse(res, HttpStatus.CREATED, true, savedArticle, 'Article created successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        res.status(500).send("Internal Server Error");
+        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
     }
 }
 
@@ -37,10 +38,10 @@ exports.fetchArticle = async (req, res) => {
         const sortParam = req.query.sort || '';
 
         const articles = await articleService.fetchArticle(titleQuery, sortParam, page, limit);
-        res.json(articles);
+        sendResponse(res, HttpStatus.OK, true, articles, 'Data fetched successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        res.status(500).send("Internal Server Error");
+        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
     }
 }
 
@@ -65,11 +66,10 @@ exports.editArticle = async (req, res) => {
             req.user.id,
             newArticleData
         );
-
-        res.json({ updatedArticle });
+        sendResponse(res, HttpStatus.OK, true, updatedArticle, 'Article Edited successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        res.status(500).send("Internal Server Error");
+        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
     }
 }
 
@@ -83,13 +83,13 @@ exports.deleteArticle = async (req, res) => {
         let article = await articleService.findArticleById(req.params.id);
 
         if (!article) {
-            return res.status(404).send("Not Found")
+            return sendResponse(res, HttpStatus.NOT_FOUND, false, null, "Article not found", "Article Not Found");
         }
 
         await articleService.deleteArticle(req.params.id, req.user.id);
-        res.json({ "Success": "Article has been deleted successfully", })
+        sendResponse(res, HttpStatus.OK, true, null, 'Article Deleted Successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        res.status(500).send("Internal Server Error");
+        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
     }
 }
