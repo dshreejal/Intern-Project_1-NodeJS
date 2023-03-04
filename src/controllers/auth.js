@@ -5,6 +5,7 @@ const config = require('../config/config');
 const userService = require('../services/auth')
 const JWT_SECRET = config.dev.jwt.secret
 const logger = require('../utils/logger');
+const { sendResponse, HttpStatus } = require('../utils/apiResponse');
 
 /**
  * This function handles the registration of a user.
@@ -14,7 +15,7 @@ const logger = require('../utils/logger');
 exports.registerUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return sendResponse(res, HttpStatus.BAD_REQUEST, false, null, "Some fields not filled properly", errors.array());
     }
     try {
         const userData = {
@@ -25,11 +26,10 @@ exports.registerUser = async (req, res) => {
             password: req.body.password
         };
         const result = await userService.registerUser(userData);
-        res.status(201).json(result);
-
+        sendResponse(res, HttpStatus.CREATED, true, result, "User created successfully", null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        res.status(500).send('Internal Server Error');
+        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
     }
 }
 
@@ -41,7 +41,7 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return sendResponse(res, HttpStatus.BAD_REQUEST, false, null, "Some fields not filled properly", errors.array());
     }
 
     try {
@@ -53,10 +53,10 @@ exports.loginUser = async (req, res) => {
                 id: user.id
             }
         }
-        const authToken = jwt.sign(data, JWT_SECRET)
-        res.json({ authToken, "success": true, "message": "Logged IN successfully" })
+        const authToken = jwt.sign(data, JWT_SECRET);
+        sendResponse(res, HttpStatus.OK, true, authToken, "Logged In successfully", null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        res.status(500).send("Internal Server Error");
+        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
     }
 }
