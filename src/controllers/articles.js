@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator")
 const articleService = require("../services/articles")
+const logger = require('../utils/logger');
 
 /**
  * This function handles the addition of a new article.
@@ -18,7 +19,7 @@ exports.addArticle = async (req, res) => {
         const savedArticle = await articleService.addArticle(title, description, req.user.id);
         res.json(savedArticle)
     } catch (error) {
-        console.error(error.message);
+        logger.log('error', `${error.message}`);
         res.status(500).send("Internal Server Error");
     }
 }
@@ -38,7 +39,7 @@ exports.fetchArticle = async (req, res) => {
         const articles = await articleService.fetchArticle(titleQuery, sortParam, page, limit);
         res.json(articles);
     } catch (error) {
-        console.log(error.message);
+        logger.log('error', `${error.message}`);
         res.status(500).send("Internal Server Error");
     }
 }
@@ -67,7 +68,7 @@ exports.editArticle = async (req, res) => {
 
         res.json({ updatedArticle });
     } catch (error) {
-        console.error(error.message);
+        logger.log('error', `${error.message}`);
         res.status(500).send("Internal Server Error");
     }
 }
@@ -88,7 +89,7 @@ exports.deleteArticle = async (req, res) => {
         await articleService.deleteArticle(req.params.id, req.user.id);
         res.json({ "Success": "Article has been deleted successfully", })
     } catch (error) {
-        console.error(error.message);
+        logger.log('error', `${error.message}`);
         res.status(500).send("Internal Server Error");
     }
 }

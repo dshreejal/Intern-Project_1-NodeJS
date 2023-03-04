@@ -4,6 +4,7 @@ require('dotenv/config');
 const config = require('../config/config');
 const userService = require('../services/auth')
 const JWT_SECRET = config.dev.jwt.secret
+const logger = require('../utils/logger');
 
 /**
  * This function handles the registration of a user.
@@ -27,7 +28,7 @@ exports.registerUser = async (req, res) => {
         res.status(201).json(result);
 
     } catch (error) {
-        console.log(error);
+        logger.log('error', `${error.message}`);
         res.status(500).send('Internal Server Error');
     }
 }
@@ -55,7 +56,7 @@ exports.loginUser = async (req, res) => {
         const authToken = jwt.sign(data, JWT_SECRET)
         res.json({ authToken, "success": true, "message": "Logged IN successfully" })
     } catch (error) {
-        console.error(error.message);
+        logger.log('error', `${error.message}`);
         res.status(500).send("Internal Server Error");
     }
 }
