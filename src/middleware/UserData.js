@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv/config');
 const config = require('../config/config');
 const JWT_SECRET = config.dev.jwt.secret;
-
+const { sendResponse, HttpStatus } = require('../utils/apiResponse');
 /**
  * This middleware function verifies the authenticity of the JWT token provided in the header.
  * If the token is valid, it sets the user information in the request object.
@@ -14,14 +14,14 @@ const JWT_SECRET = config.dev.jwt.secret;
 const FetchUser = (req, res, next) => {
     const token = req.header('auth-token')
     if (!token) {
-        res.status(401).send({ error: "Please authenticate using a valid token" })
+        sendResponse(res, HttpStatus.UNAUTHORIZED, false, null, 'Error Processing Request', 'Please authenticate using a valid token');
     }
     try {
         const data = jwt.verify(token, JWT_SECRET)
         req.user = data.user;
         next();
     } catch (error) {
-        res.status(401).send({ error: "Please authenticate using a valid token" })
+        sendResponse(res, HttpStatus.UNAUTHORIZED, false, null, 'Error Processing Request', 'Please authenticate using a valid token');
     }
 }
 
