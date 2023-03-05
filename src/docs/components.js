@@ -4,40 +4,61 @@ module.exports = {
             Article: {
                 "type": "object",
                 "properties": {
-                    "_id": {
-                        "type": "string",
-                        "description": "The unique identifier for the article"
+                    "success": {
+                        "type": "boolean",
+                        "description": "Indicates whether the request was successful or not"
                     },
-                    "user": {
-                        "type": "string",
-                        "description": "The unique identifier for the user who created the article"
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "_id": {
+                                    "type": "string",
+                                    "description": "The unique identifier for the article"
+                                },
+                                "user": {
+                                    "type": "string",
+                                    "description": "The unique identifier for the user who created the article"
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": "The title of the article"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "description": "The description of the article"
+                                },
+                                "date": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "The date and time the article was created"
+                                },
+                                "createdAt": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "The date and time the article was created in the database"
+                                },
+                                "updatedAt": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "The date and time the article was last updated in the database"
+                                },
+                                "__v": {
+                                    "type": "integer",
+                                    "description": "The version number of the article"
+                                }
+                            }
+                        },
+                        "description": "An array of articles"
                     },
-                    "title": {
+                    "message": {
                         "type": "string",
-                        "description": "The title of the article"
+                        "description": "A message describing the status of the request"
                     },
-                    "description": {
-                        "type": "string",
-                        "description": "A brief description of the article"
-                    },
-                    "date": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "The date and time the article was created"
-                    },
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "The date and time the article was created in the database"
-                    },
-                    "updatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "The date and time the article was last updated in the database"
-                    },
-                    "__v": {
-                        "type": "integer",
-                        "description": "The version number of the article"
+                    "error": {
+                        "type": "null",
+                        "description": "The error object. Null if no error occurred."
                     }
                 },
                 "example": {
