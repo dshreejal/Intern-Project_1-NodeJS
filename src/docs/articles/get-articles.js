@@ -29,7 +29,7 @@ module.exports = {
                     // content-type
                     "application/json": {
                         schema: {
-                            $ref: "#/components/schemas/Article", // Todo model
+                            $ref: "#/components/schemas/Article",
                         },
                     },
                 },
