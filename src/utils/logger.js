@@ -8,7 +8,7 @@ const Logger = createLogger({
             format: format.combine(format.timestamp(), format.json())
         }),
         new transports.File({
-            filename: 'src/logs/logserrorEvents.log',
+            filename: 'src/logs/errorEvents.log',
             level: 'error',
             format: format.combine(format.timestamp(), format.json())
         }),
