@@ -12,7 +12,7 @@ const { sendResponse, HttpStatus } = require('../utils/apiResponse');
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return sendResponse(res, HttpStatus.BAD_REQUEST, false, null, "Some fields not filled properly", errors.array());
@@ -29,7 +29,7 @@ exports.registerUser = async (req, res) => {
         sendResponse(res, HttpStatus.CREATED, true, result, "User created successfully", null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
+        next(error);
     }
 }
 
@@ -38,7 +38,7 @@ exports.registerUser = async (req, res) => {
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return sendResponse(res, HttpStatus.BAD_REQUEST, false, null, "Some fields not filled properly", errors.array());
@@ -57,6 +57,6 @@ exports.loginUser = async (req, res) => {
         sendResponse(res, HttpStatus.OK, true, authToken, "Logged In successfully", null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
+        next(error);
     }
 }

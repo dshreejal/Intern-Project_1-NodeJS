@@ -8,7 +8,7 @@ const { sendResponse, HttpStatus } = require('../utils/apiResponse');
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-exports.addArticle = async (req, res) => {
+exports.addArticle = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return sendResponse(res, HttpStatus.BAD_REQUEST, false, null, "Some fields not filled properly", errors.array());
@@ -21,7 +21,7 @@ exports.addArticle = async (req, res) => {
         sendResponse(res, HttpStatus.CREATED, true, savedArticle, 'Article created successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
+        next(error);
     }
 }
 
@@ -30,7 +30,7 @@ exports.addArticle = async (req, res) => {
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-exports.fetchArticle = async (req, res) => {
+exports.fetchArticle = async (req, res, next) => {
     try {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 8;
@@ -41,7 +41,7 @@ exports.fetchArticle = async (req, res) => {
         sendResponse(res, HttpStatus.OK, true, articles, 'Data fetched successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
+        next(error);
     }
 }
 
@@ -50,7 +50,7 @@ exports.fetchArticle = async (req, res) => {
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-exports.editArticle = async (req, res) => {
+exports.editArticle = async (req, res, next) => {
     try {
         const { title, description } = req.body;
         const newArticleData = {};
@@ -69,7 +69,7 @@ exports.editArticle = async (req, res) => {
         sendResponse(res, HttpStatus.OK, true, updatedArticle, 'Article Edited successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
+        next(error);
     }
 }
 
@@ -78,7 +78,7 @@ exports.editArticle = async (req, res) => {
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-exports.deleteArticle = async (req, res) => {
+exports.deleteArticle = async (req, res, next) => {
     try {
         let article = await articleService.findArticleById(req.params.id);
 
@@ -90,6 +90,6 @@ exports.deleteArticle = async (req, res) => {
         sendResponse(res, HttpStatus.OK, true, null, 'Article Deleted Successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
-        sendResponse(res, HttpStatus.INTERNAL_SERVER_ERROR, false, null, "Internal Server Error", error.message);
+        next(error);
     }
 }
