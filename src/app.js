@@ -5,6 +5,8 @@ const config = require("./config/config")
 const connectToMongo = require("./config/db")
 const logger = require('./utils/logger');
 const errorHandler = require('./middleware/errorHandler');
+const swaggerUI = require('swagger-ui-express');
+const docs = require('./docs');
 
 // Fetch the server port number from the configuration file
 const port = config.dev.app.port;
@@ -16,7 +18,7 @@ app.use(express.json());
 
 app.use("/api/articles", require("./routes/articles"))
 app.use("/api/auth", require("./routes/auth"))
-
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
 // Handle undefined routes error
 app.use((req, res, next) => {
     const error = new Error('404 Not Found');
