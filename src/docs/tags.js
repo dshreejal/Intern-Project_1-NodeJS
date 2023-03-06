@@ -3,5 +3,8 @@ module.exports = {
         {
             name: 'Article CRUD operations'
         },
+        {
+            name: 'User operations'
+        },
     ]
 }
