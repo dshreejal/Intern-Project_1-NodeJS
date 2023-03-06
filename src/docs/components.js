@@ -251,6 +251,33 @@ module.exports = {
                         }
                     ]
                 }
+            },
+            ArticleDeleteSuccess: {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "description": "Indicates whether the request was successful or not"
+                    },
+                    "data": {
+                        "type": "null",
+                        "description": "Null as no data is returned"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "A message describing the status of the request"
+                    },
+                    "error": {
+                        "type": "null",
+                        "description": "The error object. Null if no error occurred."
+                    }
+                },
+                "example": {
+                    "success": true,
+                    "data": null,
+                    "message": "Article Deleted Successfully",
+                    "error": null,
+                }
             }
         },
     },
