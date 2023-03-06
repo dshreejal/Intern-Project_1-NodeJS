@@ -374,6 +374,90 @@ module.exports = {
                     "error": null
                 }
             },
+            LoginUser: {
+                type: 'object',
+                properties: {
+                    email: {
+                        type: 'string',
+                        description: "User's email",
+                    },
+                    password: {
+                        type: "string",
+                        description: "User's password",
+                    }
+                },
+                "example": {
+                    "email": "johndoe@gmail.com",
+                    "password": "JohnDoe",
+                }
+            },
+            LoginResponse: {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "description": "Indicates whether the request was successful or not"
+                    },
+                    "data": {
+                        "type": "string",
+                        "description": "Authentication token of the user"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "A message describing the status of the request"
+                    },
+                    "error": {
+                        "type": "null",
+                        "description": "The error object. Null if no error occurred."
+                    }
+                },
+                "example": {
+                    "success": true,
+                    "data": "eyJhbGriOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyZ1c2VyIjp7ImlkIjoiNjQwMWI3NWI0MWJjMjU1NDYzNTRjMmU4In0sImlhdCI6MTY3ODEwNzg3M30.vHgs0tVyrgmtQpdT_1o8s_twYmBSZqqQtAkdEE2Rk08",
+                    "message": "Logged In Successfully",
+                    "error": null,
+                }
+            },
+            LoginUserError: {
+                "type": "object",
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "description": "Indicates whether the request was successful or not"
+                    },
+                    "data": {
+                        "type": "null",
+                        "description": "Null. No data provided"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "A message describing the status of the request"
+                    },
+                    "error": {
+                        "type": "array",
+                        "description": "The error object. Null if no error occurred."
+                    }
+                },
+                "example": {
+                    "success": false,
+                    "data": null,
+                    "message": "Some fields not filled properly",
+                    "error": [
+                        {
+                            "value": "",
+                            "msg": "Enter a valid email",
+                            "param": "email",
+                            "location": "body"
+                        },
+                        {
+                            "value": "",
+                            "msg": "Password cannot be blank",
+                            "param": "password",
+                            "location": "body"
+                        }
+                    ]
+                }
+            },
         },
     },
 };
