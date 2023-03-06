@@ -4,15 +4,7 @@ module.exports = {
         tags: ["User operations"], // operation's tag
         description: "User Login", // short desc
         operationId: "loginUser", // unique operation id
-        parameters: [
-            {
-                name: "auth-token",
-                in: 'header',
-                type: 'string',
-                description: "Authorization Token",
-                required: "true",
-            }
-        ], // expected params
+        parameters: [], // expected params
         requestBody: {
             // expected request body
             content: {
