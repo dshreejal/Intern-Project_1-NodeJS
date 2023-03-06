@@ -2,7 +2,9 @@ const getArticles = require('./articles/get-articles');
 const createArticle = require('./articles/create-article');
 const editArticle = require('./articles/edit-article')
 const deleteArticle = require('./articles/delete-article');
-const loginUser = require('./users/login-user')
+const registerUser = require('./users/create-user')
+const loginUser = require('./users/login-user');
+
 module.exports = {
     paths: {
         '/api/articles': {
@@ -18,6 +20,9 @@ module.exports = {
             ...deleteArticle,
         },
         '/api/auth/register': {
+            ...registerUser,
+        },
+        '/api/auth/login': {
             ...loginUser,
         },
     }
