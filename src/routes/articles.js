@@ -23,7 +23,7 @@ router.post("/add", UserData, upload.single('img'), [
 
 router.get("/", fetchArticle)
 
-router.put("/edit/:id", UserData, upload.single, editArticle)
+router.put("/edit/:id", UserData, upload.single('img'), editArticle)
 
 router.delete("/delete/:id", UserData, deleteArticle)
 
