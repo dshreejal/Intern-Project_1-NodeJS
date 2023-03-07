@@ -26,8 +26,6 @@ app.use((req, res, next) => {
     next(error);
 })
 app.use(errorHandler);
-app.listen(port, () => {
-    logger.log('info', `Backend server running at https://localhost:${port}`);
-})
+
 
 module.exports = app;
