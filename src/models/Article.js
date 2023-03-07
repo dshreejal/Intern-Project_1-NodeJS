@@ -13,6 +13,9 @@ const ArticleSchema = new Schema({
         type: String,
         required: true
     },
+    img: {
+        type: String,
+    },
     date: {
         type: Date,
         default: Date.now
