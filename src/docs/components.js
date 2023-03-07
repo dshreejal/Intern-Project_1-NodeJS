@@ -29,6 +29,10 @@ module.exports = {
                                     "type": "string",
                                     "description": "The description of the article"
                                 },
+                                "img": {
+                                    "type": "file",
+                                    "description": "Image of the article"
+                                },
                                 "date": {
                                     "type": "string",
                                     "format": "date-time",
@@ -69,6 +73,7 @@ module.exports = {
                             "user": "b156b60837341b294b4ffe8f",
                             "title": "Article 1",
                             "description": "This is article 1 of many.",
+                            "img": "image.png",
                             "date": "2023-03-02T09:34:53.929Z",
                             "createdAt": "2023-03-02T09:34:53.931Z",
                             "updatedAt": "2023-03-02T09:43:38.240Z",
@@ -89,6 +94,10 @@ module.exports = {
                     description: {
                         type: "string",
                         description: "Description about the article",
+                    },
+                    img: {
+                        type: "file",
+                        description: "Image of the article",
                     }
                 },
                 "example": {
@@ -123,6 +132,10 @@ module.exports = {
                                 "description": {
                                     "type": "string",
                                     "description": "The description of the article created"
+                                },
+                                "img": {
+                                    type: "file",
+                                    description: "Image of the article",
                                 },
                                 "date": {
                                     "type": "string",
@@ -201,6 +214,10 @@ module.exports = {
                                 "description": {
                                     "type": "string",
                                     "description": "The description of the article"
+                                },
+                                "img": {
+                                    "type": "file",
+                                    "description": "Image of the article",
                                 },
                                 "date": {
                                     "type": "string",
@@ -289,11 +306,16 @@ module.exports = {
                     description: {
                         type: "string",
                         description: "Description about the article to be edited",
-                    }
+                    },
+                    img: {
+                        type: "file",
+                        description: "Image of the article",
+                    },
                 },
                 "example": {
                     "title": "New Title to be edited",
                     "description": "New description to be edited",
+                    "img": "image.png"
                 }
             },
             ArticleEditSuccess: {
@@ -323,6 +345,10 @@ module.exports = {
                                 "description": {
                                     "type": "string",
                                     "description": "The description of the edited article"
+                                },
+                                "img": {
+                                    "type": "file",
+                                    "description": "Image of the article",
                                 },
                                 "date": {
                                     "type": "string",
@@ -364,6 +390,7 @@ module.exports = {
                             "user": "171469142f565dcf8cef7873",
                             "title": "Article edited using Swagger",
                             "description": "This is an article edited using swagger ui.",
+                            "img": "image.png",
                             "date": "2023-03-02T09:34:53.929Z",
                             "createdAt": "2023-03-02T09:34:53.931Z",
                             "updatedAt": "2023-03-02T09:43:38.240Z",
