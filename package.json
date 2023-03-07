@@ -4,8 +4,8 @@
   "description": "Backend server",
   "main": "src/app.js",
   "scripts": {
-    "dev": "npx nodemon src/app.js",
-    "test": "jest"
+    "dev": "npx nodemon src/server.js",
+    "test": "jest --testTimeout=5000  --detectOpenHandles --watchAll"
   },
   "author": "",
   "license": "ISC",
