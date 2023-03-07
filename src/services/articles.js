@@ -1,8 +1,8 @@
 const Article = require("../models/Article");
 
 //Service Function
-exports.addArticle = async (title, description, userID) => {
-    const article = new Article({ title, description, user: userID });
+exports.addArticle = async (title, description, img, userID) => {
+    const article = new Article({ title, description, img, user: userID });
     const savedArticle = await article.save();
     return savedArticle;
 }

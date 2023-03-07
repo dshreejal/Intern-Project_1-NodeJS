@@ -16,8 +16,9 @@ exports.addArticle = async (req, res, next) => {
 
     try {
         const { title, description } = req.body;
+        const img = req.file.filename;
         // Call the article service to add the new article
-        const savedArticle = await articleService.addArticle(title, description, req.user.id);
+        const savedArticle = await articleService.addArticle(title, description, img, req.user.id);
         sendResponse(res, HttpStatus.CREATED, true, savedArticle, 'Article created successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
@@ -53,6 +54,7 @@ exports.fetchArticle = async (req, res, next) => {
 exports.editArticle = async (req, res, next) => {
     try {
         const { title, description } = req.body;
+        const img = req.file.filename;
         const newArticleData = {};
         if (title) {
             newArticleData.title = title;
@@ -60,7 +62,9 @@ exports.editArticle = async (req, res, next) => {
         if (description) {
             newArticleData.description = description;
         }
-
+        if (img) {
+            newArticleData.img = img;
+        }
         const updatedArticle = await articleService.editArticle(
             req.params.id,
             req.user.id,
