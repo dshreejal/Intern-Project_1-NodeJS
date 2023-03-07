@@ -22,7 +22,7 @@ module.exports = {
             // expected request body
             content: {
                 // content-type
-                "application/json": {
+                "multipart/form-data": {
                     schema: {
                         $ref: "#/components/schemas/EditArticle", // article create data model
                     },
