@@ -19,6 +19,10 @@ exports.addArticle = async (req, res, next) => {
         const img = req.file.filename;
         // Call the article service to add the new article
         const savedArticle = await articleService.addArticle(title, description, img, req.user.id);
+        // Modify the img field of savedArticle to include the full image URL
+        const serverUrl = req.protocol + "://" + req.get("host");
+        const imageUrl = serverUrl + "/public/images/" + savedArticle.img;
+        savedArticle.img = imageUrl;
         sendResponse(res, HttpStatus.CREATED, true, savedArticle, 'Article created successfully', null);
     } catch (error) {
         logger.log('error', `${error.message}`);
